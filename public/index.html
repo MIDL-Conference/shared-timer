@@ -21,29 +21,27 @@
 </head>
 
 <body>
-  <div id="message">
-    <!-- <h1>Countdown</h1> -->
 
-    <p>
-      <input type="button" value="Reset" id="resetButton" onclick="javascript:settimerseconds(30 + 1)" />
-    </p>
-    <div id="clockdiv">
-      <div>
-        <span class="minutes" id="minute">0</span>
-        <div class="smalltext">Minutes</div>
-      </div>
-      <div>
-        <span class="seconds" id="second">0</span>
-        <div class="smalltext">Seconds</div>
-      </div>
+  <div class="time" id="clockdiv"></div>
+
+  <form id="adminControls">
+    <div id="radioButtons">
+      <input type="radio" id="minutes3" name="talkDuration" value="3" checked>
+      <label for="minutes3">3 minutes</label>
+
+      <input type="radio" id="minutes18" name="talkDuration" value="18">
+      <label for="minutes18">18 minutes</label>
+
+      <input type="radio" id="minutes45" name="talkDuration" value="45">
+      <label for="minutes45">45 minutes</label>
     </div>
 
-    <p id="bottommsg"></p>
-    <!-- <p id="load">Firebase SDK Loading&hellip;</p>
-    <p id="pipo">pipo</p>
-    <p id="write-timestamp">Written timestamp</p> -->
+    <p>
+      <input type="button" value="Reset" id="resetButton" onclick="javascript:settimerseconds()" />
+    </p>
+  </form>
 
-    <script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 
 </html>
