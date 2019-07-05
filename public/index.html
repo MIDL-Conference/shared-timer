@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shared web timer</title>
+
+  <!-- update the version number as needed -->
+  <script defer src="/__/firebase/6.2.4/firebase-app.js"></script>
+  <!-- include only the Firebase features as you need -->
+  <script defer src="/__/firebase/6.2.4/firebase-auth.js"></script>
+  <script defer src="/__/firebase/6.2.4/firebase-database.js"></script>
+  <script defer src="/__/firebase/6.2.4/firebase-messaging.js"></script>
+  <script defer src="/__/firebase/6.2.4/firebase-storage.js"></script>
+  <script defer src="/__/firebase/6.2.4/firebase-firestore.js"></script>
+  <!-- initialize the SDK after all desired features are loaded -->
+  <script defer src="/__/firebase/init.js"></script>
+
+  <link rel='stylesheet' type='text/css' href='style.css'>
+</head>
+
+<body>
+  <div id="message">
+    <!-- <h1>Countdown</h1> -->
+
+    <p>
+      <input type="button" value="Reset" id="resetButton" onclick="javascript:settimerseconds(30 + 1)" />
+    </p>
+    <div id="clockdiv">
+      <div>
+        <span class="minutes" id="minute">0</span>
+        <div class="smalltext">Minutes</div>
+      </div>
+      <div>
+        <span class="seconds" id="second">0</span>
+        <div class="smalltext">Seconds</div>
+      </div>
+    </div>
+
+    <p id="bottommsg"></p>
+    <!-- <p id="load">Firebase SDK Loading&hellip;</p>
+    <p id="pipo">pipo</p>
+    <p id="write-timestamp">Written timestamp</p> -->
+
+    <script src="app.js"></script>
+</body>
+
+</html>
