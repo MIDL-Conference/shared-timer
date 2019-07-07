@@ -15,12 +15,23 @@ var fixedDuration = false;
 function domLoaded() {
   if (!isLocal) {
     try {
+      // Load firebase
       let app = firebase.app();
       db = firebase.firestore();
   
       let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] ===
         'function');
-  
+
+      // Listen to changes in deadline
+      var docRef = db.collection("common").doc("h2eg1Gl589Z1PDRZoVrp");
+      docRef.onSnapshot(function (thisDoc) {
+          deadline = thisDoc.data().deadline;
+	  // Set deadline in local storage
+          localStorage.setItem("deadline",deadline);
+      }, function(error) {
+          console.error(error);
+	  msg.innerHTML = "Error listening to deadline changes, check the console.";
+      });
     } catch (e) {
       console.error(e);
       msg.innerHTML = 'Error loading the Firebase SDK, check the console.';
@@ -48,9 +59,10 @@ function settimerseconds() {
 
   var documentObject = {};
   documentObject.deadline = Date.now() / 1000 + seconds;
-  // set in local storage anyway
+  // Set deadline in local storage
   localStorage.setItem("deadline",documentObject.deadline);
   if (!isLocal) {
+    // If not local, also propagate to server
     var docRef = db.collection("common").doc("h2eg1Gl589Z1PDRZoVrp")
     docRef.update(documentObject);
   }
@@ -83,24 +95,10 @@ function setDisplayTime(deadline) {
 }
 
 function checkTime() {
-  // fetch from local storage anyway
-  deadline = 0;//parseInt(localStorage.getItem("deadline"));
-  if (!isLocal) {
-      var docRef = db.collection("common").doc("h2eg1Gl589Z1PDRZoVrp")
-      docRef.get().then(function (thisDoc) {
-          deadline = thisDoc.data().deadline;
-	  setDisplayTime(deadline);
-      }).catch(function(error) {
-	  console.error(error);
-	  msg.innerHTML = "Error: using local deadline";
-          deadline = parseInt(localStorage.getItem("deadline"));
-          setDisplayTime(deadline);
-      });
-  }
-  else {
-    deadline = parseInt(localStorage.getItem("deadline"));
-    setDisplayTime(deadline);
-  }
+  // Fetch deadline from local storage
+  // Note that onine changes should modify it anyway
+  deadline = parseInt(localStorage.getItem("deadline"));
+  setDisplayTime(deadline);
 }
 
 function zeroFill(number, width) {
@@ -135,5 +133,8 @@ if (urlParams.has("debug")) {
   orangeThreshold = 60;
 }
 
+// React to document loading finished -> start firebase
 document.addEventListener('DOMContentLoaded', domLoaded);
+
+// Update the GUI every x milliseconds
 interval = setInterval(checkTime, 1000);
